@@ -1,4 +1,4 @@
-.header {
+header {
     position: absolute;
     left: 0%;
     right: 0%;
@@ -10,7 +10,7 @@
     height: 64px;
 }
 
-.nav {
+nav {
     background-color : #2196F3;
     display: flex;
     margin-left: 62px;
@@ -18,55 +18,82 @@
 
 .nav-item {
     background-color : #2196F3;
-    font-size: 14px;
-    text-align: center;
-    padding-top: 23px;
-    padding-bottom: 23px;
+    padding: 0px;
     width: 120px;
     height: 64px;
     box-sizing: border-box;
+    text-align: center;
+    border: none;
 }
 
-a {
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-/* line-height: 21px; */
-
-text-align: center;
-/* letter-spacing: 0.25px; */
-text-decoration: none;
-
-color: rgba(255, 255, 255, 0.7);
+a { 
+    color: rgba(255, 255, 255, 0.7);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.25px;
+    text-decoration: none;
 }
 
 .active {
-    color: rgba(255, 255, 255);
+    color: white;
     background-color : #1E88E5;
+    padding: 23px 0px;
 }
 
 .conteiner {
-    margin-top: 115px;
-    margin-left: 62px;
-    margin-right: 62px;
+    margin: 115px 62px;
+
+}
+
+.cat-block {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+    margin: 46px 0px;
 }
 
 .cat {
     width: 225px;
     height: 225px;
-    box-sizing: border-box;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.cat-img {
+    transition: all 5s;
+}
+.cat-img:hover {
+    width: 256px;
+    height: 256px;
 }
 
-/* .cat:hover {
-  width: 250px;
-  height: 250px;
-} */
+.like {
+    position: absolute;
+    width: 257px;
+    height: 94px;
+    left: -16px;
+    top: 163px;
+}
 
+.like-img {
+    width: 40px;
+    height: 36.7px;
+    margin-left: 198px;
+    margin-top: 33px;
+    display: none;
+    transition: all 1.5s;
+}
+
+.like-img-red {
+    width: 40px;
+    height: 36.7px;
+    margin-left: 198px;
+    margin-top: 33px;
+    display: none;
+    transition: all 1.5s;
+}
 
 
 
