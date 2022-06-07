@@ -58,12 +58,6 @@ a  {
     background-color: white;
 }
 
-.cat {
-    /* display: flex;
-    align-items: center;
-    flex-direction: column; */
-}
-
 .cat-block {
     display: flex;
     align-items: center;
@@ -123,7 +117,7 @@ a  {
 }
 
 @media (min-width: 600px) {
-    .cat {
+    .block {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
@@ -134,7 +128,7 @@ a  {
 }
 
 @media (min-width: 850px) {
-    .cat {
+    .block {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
@@ -145,7 +139,7 @@ a  {
 }
 
 @media (min-width: 1300px) {
-    .cat {
+    .block {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 
@@ -154,8 +148,6 @@ a  {
     }
   
 }
-
-маша
 
 
 

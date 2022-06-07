@@ -234,14 +234,20 @@ const cats = [
 const navItemAll = document.querySelector('.nav-all')
 const navItemLike = document.querySelector('.nav-like')
 
-const catBlock = document.querySelector('.cat')
+const catBlock = document.querySelector('.block')
+
 const buttonMore = document.querySelector('.more')
 
-const catImg = document.querySelectorAll('.cat-img')
-
-const catLike = document.querySelector('.cat-like')
-
+let likeImgRed = []
 let newCats = []
+
+navItemAll.classList.add('active')
+
+catsRender(cats, 0, 15)
+
+for ( let i = 0; i < cats.length; i++) {
+    cats[i].favorite = false
+}
 
 navItemAll.addEventListener('click', function() {
     event.preventDefault()
@@ -260,19 +266,26 @@ navItemLike.addEventListener('click', function() {
     catsRender(newCats, 0, newCats.length)
 })
 
-catsRender(cats, 0, 15)
-
 function catsRender(arr, start, end) {
     for ( let i = start; i < end; i++) {
         catBlock.innerHTML += `
             <div class="cat-block">
                 <div class="cat-block-img">
-                    <img src=${arr[i].url} class="cat-img" cat-id="${arr[i].id}">
+                    <img src=${arr[i].url} class="cat-img" id="${arr[i].id}">
                     <img src="Vector-red.png" class="like-img-red">
                     <img src="Vector.png" class="like-img">
                 </div>    
             </div>  `
     }
+    
+    likeImgRed = document.querySelectorAll(".like-img-red")
+
+    for (let i = start; i < end; i++) {
+        if (cats[i].favorite === true) {
+            likeImgRed[i].style.display = "block"
+        }
+    }
+
 }
 
 buttonMore.addEventListener('click', function() {
@@ -283,26 +296,37 @@ buttonMore.addEventListener('click', function() {
 document.addEventListener("click", function (event) {
     if (event.target.matches(".cat-img") === true) {
         
-        const neighbour = event.target.nextElementSibling
-        let i = cats.findIndex((item) => item.id === event.target.getAttribute("cat-id"));
+        let i = cats.findIndex((item) => item.id === event.target.getAttribute("id"));
         
-        if ('favorite' in cats[i]) {
-            delete cats[i].favorite
-            neighbour.style.display = "none"
+        if (cats[i].favorite === false) {
+            addFavorite(i)
         } else {
-            cats[i].favorite = true 
-            neighbour.style.display = "block"
+            removeFavorite(i)
         } 
     }
+    
+    return newCats
+    
 });
 
+function addFavorite(i) {
+    cats[i].favorite = true
+    likeImgRed[i].style.display = "block"
+}
+
+function removeFavorite(i) {
+    cats[i].favorite = false
+    likeImgRed[i].style.display = "none"
+}
+
 function getCatsFavorite() {
+    newCats = []
     for (let i = 0; i < cats.length; i++) {
         if (cats[i].favorite === true) {
-        newCats.push(cats[i])
+            newCats.push(cats[i])
         }
     }
-    console.log(newCats)
+
     return newCats
 }
 
