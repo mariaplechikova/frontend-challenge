@@ -258,6 +258,7 @@ navItemAll.addEventListener('click', function() {
 })
 
 navItemLike.addEventListener('click', function() {
+    console.log('nav item like')
     event.preventDefault()
     catBlock.innerHTML = ''
     navItemLike.classList.add('active')
@@ -269,9 +270,9 @@ navItemLike.addEventListener('click', function() {
 function catsRender(arr, start, end) {
     for ( let i = start; i < end; i++) {
         catBlock.innerHTML += `
-            <div class="cat-block">
+            <div class="cat-block" id="${arr[i].id}">
                 <div class="cat-block-img">
-                    <img src=${arr[i].url} class="cat-img" id="${arr[i].id}">
+                    <img src=${arr[i].url} class="cat-img">
                     <img src="Vector-red.png" class="like-img-red">
                     <img src="Vector.png" class="like-img">
                 </div>    
@@ -281,7 +282,7 @@ function catsRender(arr, start, end) {
     likeImgRed = document.querySelectorAll(".like-img-red")
 
     for (let i = start; i < end; i++) {
-        if (cats[i].favorite === true) {
+        if (arr[i].favorite === true) {
             likeImgRed[i].style.display = "block"
         }
     }
@@ -293,36 +294,44 @@ buttonMore.addEventListener('click', function() {
 })
 
 
-document.addEventListener("click", function (event) {
-    if (event.target.matches(".cat-img") === true) {
-        
-        let i = cats.findIndex((item) => item.id === event.target.getAttribute("id"));
-        
-        if (cats[i].favorite === false) {
-            addFavorite(i)
-        } else {
-            removeFavorite(i)
-        } 
+catBlock.addEventListener("click", function (event) {
+    let elem = event.target
+
+    while(elem) {
+        if (elem.matches(".cat-block")) {
+            break;
+        }
+
+        elem = elem.parentElement
     }
-    
-    return newCats
-    
+
+    if (elem) {
+        const imgRed = elem.querySelector('.like-img-red')
+        const id = elem.getAttribute("id")
+
+        if (getComputedStyle(imgRed).display === 'block') {
+            imgRed.style.display = "none"
+            setCatsFavorite(id, false)
+        } else {
+            imgRed.style.display = "block"
+            setCatsFavorite(id, true)
+        }
+    }
 });
 
-function addFavorite(i) {
-    cats[i].favorite = true
-    likeImgRed[i].style.display = "block"
-}
+function setCatsFavorite(id, status) {
+    const i = cats.findIndex((item) => item.id === id);
 
-function removeFavorite(i) {
-    cats[i].favorite = false
-    likeImgRed[i].style.display = "none"
+    cats[i].favorite = status
 }
 
 function getCatsFavorite() {
     newCats = []
     for (let i = 0; i < cats.length; i++) {
+        console.log(cats[i].favorite)
+
         if (cats[i].favorite === true) {
+            console.log('test')
             newCats.push(cats[i])
         }
     }
