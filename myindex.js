@@ -7,8 +7,7 @@ let favoriteCats
 let newCats
 let likeImgRed
 let pageCount = 1
-// let start = 0
-// let end = 15
+let start
 
 async function init(limit, page) {
     const url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${page}&order=ASC`;
@@ -32,7 +31,7 @@ async function init(limit, page) {
 //Загрузка  первых 15 котиков
 (async function () {
     cats = await init(15, pageCount);
-    catsRender(cats)
+    catsRender(cats, 0)
     return cats
 })();
 
@@ -40,9 +39,11 @@ navItemAll.classList.add('active')
 
 //Загрузка следующих 15 котиков
 buttonMore.addEventListener('click', async function() {
+    start = cats.length
+    console.log(start)
     newCats = await init(15, pageCount);
     cats = cats.concat(newCats)
-    catsRender(cats)
+    catsRender(cats, start)
     return cats
 })
 
@@ -50,28 +51,29 @@ buttonMore.addEventListener('click', async function() {
 //Переход на страницу "Все котики"
 navItemAll.addEventListener('click', function() {
     event.preventDefault()
+    catBlock.innerHTML = ""
     navItemAll.classList.add('active')
     navItemLike.classList.remove('active')
-    catsRender(cats)
-    // buttonMore.style.display = "block"
+    catsRender(cats, 0)
+    buttonMore.style.display = "block"
 })
 
 //Переход на страницу "Любимые котики"
 navItemLike.addEventListener('click', function() {
     console.log('nav item like')
     event.preventDefault()
+    catBlock.innerHTML = ""
     navItemLike.classList.add('active')
     navItemAll.classList.remove('active')
     getCatsFavorite()
-    catsRender(favoriteCats)
+    catsRender(favoriteCats, 0)
     console.log(favoriteCats)
-    // buttonMore.style.display = "none"
+    buttonMore.style.display = "none"
 })
 
 //Отрисовка котиков
-function catsRender(arr) {
-    catBlock.innerHTML = ""
-    for ( let i = 0; i < arr.length; i++) {
+function catsRender(arr, start) {
+    for ( let i = start; i < arr.length; i++) {
         catBlock.innerHTML += `
             <div class="cat-block" id="${arr[i].id}">
                 <div class="cat-block-img">
@@ -84,7 +86,7 @@ function catsRender(arr) {
     
     likeImgRed = document.querySelectorAll(".like-img-red")
 
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = start; i < arr.length; i++) {
         if (arr[i].favorite === true) {
             likeImgRed[i].style.display = "block"
         }
@@ -132,7 +134,6 @@ function getCatsFavorite() {
         console.log(cats[i].favorite)
 
         if (cats[i].favorite === true) {
-            console.log('test')
             favoriteCats.push(cats[i])
         }
     }
