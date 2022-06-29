@@ -35,7 +35,7 @@ navItemAll.classList.add('active')
 
 //Загрузка следующих 15 котиков
 buttonMore.addEventListener('click', async function() {
-    start = cats.length
+    const start = cats.length
     console.log(start)
     const newCats = await init(15, pageCount);
     cats = cats.concat(newCats)
@@ -43,22 +43,26 @@ buttonMore.addEventListener('click', async function() {
     return cats
 })
 
+
 //Переход на страницу "Все котики"
 navItemAll.addEventListener('click', function() {
     event.preventDefault()
     catBlock.innerHTML = ""
-    navItemAll.classList.toggle('active')
-    navItemLike.classList.toggle('active')
+    // Можно через toogle
+    navItemAll.classList.add('active')
+    navItemLike.classList.remove('active')
     catsRender(cats, 0)
     buttonMore.style.display = "block"
 })
 
 //Переход на страницу "Любимые котики"
 navItemLike.addEventListener('click', function() {
+    console.log('nav item like')
     event.preventDefault()
     catBlock.innerHTML = ""
-    navItemLike.classList.toggle('active')
-    navItemAll.classList.toggle('active')
+    // Можно через toogle
+    navItemLike.classList.add('active')
+    navItemAll.classList.remove('active')
     const favoriteCats = getCatsFavorite()
     catsRender(favoriteCats, 0)
     console.log(favoriteCats)
@@ -68,12 +72,16 @@ navItemLike.addEventListener('click', function() {
 //Отрисовка котиков
 function catsRender(arr, start) {
     for ( let i = start; i < arr.length; i++) {
+        // const isFavorite = arr[i].favorite === true ? 'show' : 'hide'
+        // ${isFavorite ? '' : 'hidden'}
+        // ${isFavorite ? 'hidden' : ''}
+
         catBlock.innerHTML += `
             <div class="cat-block" id="${arr[i].id}">
-                <div class="cat-block-img">
+                <div class="cat-block-img cat-block-favorite">
                     <img src=${arr[i].url} class="cat-img">
                     <img src="Vector-red.png" class="like-img-red">
-                    <img src="Vector.png" class="like-img">
+                    <img src="Vector.png" class="like-img hide">
                 </div>    
             </div>  `
     }
@@ -85,7 +93,6 @@ function catsRender(arr, start) {
             likeImgRed[i].style.display = "block"
         }
     }
-
 }
 
 //Клик на котике
@@ -123,7 +130,8 @@ function setCatsFavorite(id, status) {
 
 //Получам массив Любимых котиков
 function getCatsFavorite() {
-    favoriteCats = []
+    const favoriteCats = []
+
     for (let i = 0; i < cats.length; i++) {
         console.log(cats[i].favorite)
 
@@ -134,5 +142,3 @@ function getCatsFavorite() {
 
     return favoriteCats
 }
-
-
